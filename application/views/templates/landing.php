@@ -14,9 +14,9 @@
     <meta content="<?= str_replace(['{','}',' '], ['','',','], $web['keyword'] ) ?>" name="keywords">
   <?php endif ?>
 <?php 
-    if ($web['g_tag'] && $web['deskripsi']) {
-        echo $profile['google_tag'];
-        echo $profile['deskripsi'];
+    if ($web['g_tag'] && $web['script_g_tag']) {
+        echo $web['g_tag'];
+        echo $web['script_g_tag'];
     }
 
  ?>
