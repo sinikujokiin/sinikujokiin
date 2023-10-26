@@ -139,7 +139,7 @@ class Section extends CI_Controller {
 					'deskripsi' => $deskripsi,
 					// 'background' => $background ? $background : null,
 				];
-				if (isset($_FILES['background']['name'])) {
+				if ($_FILES['background']['name']) {
 					$background = $this->session->userdata('background');
 					$data['background'] = $background;
 				}
