@@ -127,8 +127,8 @@ class Setting extends CI_Controller {
 				$total_tim = $this->input->post('total_tim', TRUE);
 				$keyword = $this->input->post('keyword', TRUE);
 				$deskripsi = $this->input->post('deskripsi', TRUE);
-				$g_tag = $this->input->post('g_tag', TRUE);
-				$script_g_tag = $this->input->post('script_g_tag', TRUE);
+				$g_tag = $this->input->post('g_tag');
+				$script_g_tag = $this->input->post('script_g_tag');
 				// var_dump($status != NULL ? 'Active' : 'Non Active');die;
 				$upload = $this->upload($website_name);
 				if (isset($upload[0]['sukses']) && isset($upload[1]['sukses'])) {
