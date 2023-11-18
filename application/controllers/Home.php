@@ -8,11 +8,14 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('General_Model', 'gm');
-		$this->output->cache(86400);
+		$this->load->driver('cache');
+
+		
 	}
 
 	public function index()
 	{
+	    $this->output->cache(86400);
 		$data['title'] = "Home";
 		$data['breadcrumb'] = breadcrumb($data['title'], false);
 		$data['fitur'] = $this->gm->get('fitur', $this->where)->result_array();
@@ -42,6 +45,7 @@ class Home extends CI_Controller {
 
 	public function caraOrder()
 	{
+	    $this->output->cache(86400);
 		$data['title'] = "Cara Order";
 		$data['breadcrumb'] = breadcrumb($data['title'], true);
 		$data['data'] = $this->gm->get('cara_order', $this->where)->result_array();
@@ -63,6 +67,13 @@ class Home extends CI_Controller {
 
 	public function testimoni()
 	{
+	    $cache_key = md5($this->uri->uri_string());
+        $cache_path = $this->config->item('cache_path');
+        
+        if ($output = $this->cache->file->get($cache_key)) {
+            $this->output->set_output($output);
+            return;
+        }
 		$data['title'] = "Testimoni";
 		$data['breadcrumb'] = breadcrumb($data['title'], true);
 		$data['data'] = $this->gm->get('testimoni', $this->where)->result_array();
@@ -75,11 +86,13 @@ class Home extends CI_Controller {
 			'footer' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_footer_cara_order']))->row_array(),
 		];
 		// var_dump($data['testimoni_chat']);die;
-		loadView('templates/landing', 'landing/testimoni', $data);
+		$output = loadView('templates/landing', 'landing/testimoni', $data);
+        $this->cache->file->save($cache_key, $output, 86400);
 	}
 
 	public function tugas($slug = null)
 	{
+	    $this->output->cache(86400);
 		if ($slug) {
 			$tugas = $this->db->where('slug', $slug)->get_where('tugas', $this->where)->row_array();
 			$data['title'] = "Detail Tugas ".$tugas['nama_tugas'];
@@ -108,6 +121,7 @@ class Home extends CI_Controller {
 
 	public function artikel($slug = null)
 	{
+	    $this->output->cache(86400);
 		$data['section'] = [
 			'banner' => $this->db->where('type_section', 'section_banner_artikel')->get_where('section', $this->where)->row_array(),
 			'side' => $this->db->where('type_section', 'section_side_artikel')->get_where('section', $this->where)->row_array(),
