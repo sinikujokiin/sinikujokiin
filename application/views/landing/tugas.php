@@ -50,10 +50,10 @@
 		      <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
 		        <div class="icon-box mt-3">
 		          <div class="icon"><i class="<?= $value['ikon'] ?>"></i></div>
-		          <h4><a href="#"><?= $value['nama_tugas'] ?></a></h4>
+		          <h4><a href="<?= base_url('tugas/'.$value['slug']) ?>"><?= $value['nama_tugas'] ?></a></h4>
 		          <p><?= $value['deskripsi_singkat'] ?></p>
 		          <?php if ($value['deskripsi']): ?>
-		            <!-- <a href="<?= base_url('tugas/'.$value['slug']) ?>" title="Lihat Detail">Lihat Selengkapnya</a> -->
+		            <a href="<?= base_url('tugas/'.$value['slug']) ?>" title="Lihat Detail">Lihat Selengkapnya</a>
 		          <?php endif ?>
 		        </div>
 		      </div>
@@ -69,7 +69,7 @@
 	    	
 	    <div class="row justify-content-center mt-4">
 	        <div class="col-lg-6 col-sm-12">
-	          <a href="<?= base_url('cara-order') ?>" class="btn btn-primary" title="Lihat Cara Order">Lihat Cara Order</a>
+	          <!-- <a href="<?= base_url('cara-order') ?>" class="btn btn-primary" title="Lihat Cara Order">Lihat Cara Order</a> -->
 	        </div>
 	     </div>
 	    </div>

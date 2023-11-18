@@ -77,14 +77,33 @@
 			</div>
 		</div>
 	</section><!-- End Clients Section -->
-	<div id="slider-container" class="slider">
-		<?php foreach ($testimoni_chat as $value): ?>
-			<div class="slide">
-				<img src="<?= base_url('uploads/testimoni_chat/').$value['image'] ?>" alt="Image Testimoni Chat" title="<?= $value['text'] ?>">
+	<div class="row justify-content-center m-2">
+		<?php if($testimoni_chat): ?>
+			<?php foreach ($testimoni_chat as $value): ?>
+				
+				<div class="col-xl-3 col-lg-4 col-6 mb-3">
+					<a href="<?= base_url('uploads/testimoni_chat/').$value['image'] ?>" target="_BLANK">
+						<img src="<?= base_url('uploads/testimoni_chat/').$value['image'] ?>" width="100%" alt="Image Testimoni Chat" title="<?= $value['text'] ?>">	
+					</a>
+				</div>
+			<?php endforeach ?>
+		<?php else: ?>
+			<div class="text-center">
+				<h4>
+					Belum Ada Data Testimoni
+				</h4>
+				
 			</div>
-			
-		<?php endforeach ?>
+		<?php endif; ?>
+
 	</div>
+	<div class="row justify-content-center text-center">
+		<div class="col-3">
+			<?= $this->pagination->create_links(); ?>
+			<br>
+		</div>
+	</div>
+
 	<?php endif ?>
 
 
