@@ -8,6 +8,7 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('General_Model', 'gm');
+		$this->output->cache(86400);
 	}
 
 	public function index()
