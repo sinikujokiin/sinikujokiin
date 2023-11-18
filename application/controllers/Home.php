@@ -69,8 +69,8 @@ class Home extends CI_Controller {
 		$data['section'] = [
 			'banner' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_banner_testimoni']))->row_array(),
 			'testimonial' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial']))->row_array(),
-			'testimonial_client' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_client']))->row_array(),
-			'testimonial_chat' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_chat']))->row_array(),
+			'testimoni_client' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_client']))->row_array(),
+			'testimoni_chat' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_chat']))->row_array(),
 			'footer' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_footer_cara_order']))->row_array(),
 		];
 		// var_dump($data['testimoni_chat']);die;
