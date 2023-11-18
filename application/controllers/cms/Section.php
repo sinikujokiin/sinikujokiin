@@ -193,9 +193,9 @@ class Section extends CI_Controller {
 			$ext = explode(".", $this->upload->data('file_name'));
 			$ext = end($ext);
 			$webp = $this->upload->data('file_name');
-			// if ($ext != "webp") {
-			// 	$webp = covertToWebp($path, $this->upload->data('file_name'));
-			// }
+			 if ($ext != "webp") {
+			 	$webp = covertToWebp($path, $this->upload->data('file_name'));
+			 }
 			$file = $this->session->set_userdata('background', $webp);
 			return TRUE;
 		}

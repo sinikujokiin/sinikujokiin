@@ -7,32 +7,33 @@ class Home extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('General_Model', 'gm');
 	}
 
 	public function index()
 	{
 		$data['title'] = "Home";
 		$data['breadcrumb'] = breadcrumb($data['title'], false);
-		$data['fitur'] = $this->db->get_where('fitur', $this->where)->result_array();
-		$data['tugas'] = $this->db->limit(6)->order_by('created_at', "ASC")->get_where('tugas', $this->where)->result_array();
-		$data['faq'] = $this->db->get_where('faq', $this->where)->result_array();
-		$data['testimoni'] = $this->db->get_where('testimoni', $this->where)->result_array();
-		$data['portfolio'] = $this->db->get_where('portfolio', $this->where)->result_array();
-		$data['kategori'] = $this->db->group_by('kategori_portfolio')->get_where('portfolio', ['deleted_at' => null])->result_array();
-		$data['team'] = $this->db->get_where('team', $this->where)->result_array();
-		$data['jenis_joki'] = $this->db->get_where('jenis_joki', $this->where)->result_array();
+		$data['fitur'] = $this->gm->get('fitur', $this->where)->result_array();
+		$data['tugas'] = $this->gm->get('tugas', $this->where, null, null, ['created_at', 'ASC'])->result_array();
+		$data['faq'] = $this->gm->get('faq', $this->where)->result_array();
+		$data['testimoni'] = $this->gm->get('testimoni', $this->where)->result_array();
+		$data['portfolio'] = $this->gm->get('portfolio', $this->where, null, null, ['created_at', 'desc'])->result_array();
+		$data['kategori'] = $this->gm->get('portfolio', ['deleted_at' => null], null,null,null,'kategori_portfolio')->result_array();
+		$data['team'] = $this->gm->get('team', $this->where)->result_array();
+		$data['jenis_joki'] = $this->gm->get('jenis_joki', $this->where)->result_array();
 		$data['section'] = [
-			'home' => $this->db->where('type_section', 'section_home')->get_where('section', $this->where)->row_array(),
-			'faq' => $this->db->where('type_section', 'section_faq')->get_where('section', $this->where)->row_array(),
-			'payment' => $this->db->where('type_section', 'section_payment')->get_where('section', $this->where)->row_array(),
-			'jenis_joki' => $this->db->where('type_section', 'section_jenis_joki')->get_where('section', $this->where)->row_array(),
-			'contact' => $this->db->where('type_section', 'section_contact')->get_where('section', $this->where)->row_array(),
-			'service' => $this->db->where('type_section', 'section_service')->get_where('section', $this->where)->row_array(),
-			'best_price' => $this->db->where('type_section', 'section_best_price')->get_where('section', $this->where)->row_array(),
-			'portfolio' => $this->db->where('type_section', 'section_portfolio')->get_where('section', $this->where)->row_array(),
-			'testimoni' => $this->db->where('type_section', 'section_testimoni')->get_where('section', $this->where)->row_array(),
-			'team' => $this->db->where('type_section', 'section_team')->get_where('section', $this->where)->row_array(),
-			'footer' => $this->db->where('type_section', 'section_footer_home')->get_where('section', $this->where)->row_array(),
+			'home' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_home']))->row_array(),
+			'faq' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_faq']))->row_array(),
+			'payment' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_payment']))->row_array(),
+			'jenis_joki' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_jenis_joki']))->row_array(),
+			'contact' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_contact']))->row_array(),
+			'service' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_service']))->row_array(),
+			'best_price' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_best_price']))->row_array(),
+			'portfolio' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_portfolio']))->row_array(),
+			'testimoni' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimoni']))->row_array(),
+			'team' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_team']))->row_array(),
+			'footer' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_footer_home']))->row_array(),
 		];
 		$data['pembayaran'] = $this->db->get_where('pembayaran', $this->where)->result_array();
 		loadView('templates/landing', 'landing/home', $data);
@@ -42,19 +43,19 @@ class Home extends CI_Controller {
 	{
 		$data['title'] = "Cara Order";
 		$data['breadcrumb'] = breadcrumb($data['title'], true);
-		$data['data'] = $this->db->get_where('cara_order', $this->where)->result_array();
-		$data['pembayaran'] = $this->db->get_where('pembayaran', $this->where)->result_array();
+		$data['data'] = $this->gm->get('cara_order', $this->where)->result_array();
+		$data['pembayaran'] = $this->gm->get('pembayaran', $this->where)->result_array();
 		$pembayaran = [];
 		foreach ($data['pembayaran'] as $value) {
 			$pembayaran[] = $value['nama_pembayaran'];
 		}
 		$data['list_pembayaran'] = implode(",", $pembayaran);
 		$data['section'] = [
-			'banner' => $this->db->where('type_section', 'section_banner_cara_order')->get_where('section', $this->where)->row_array(),
-			'cara_order' => $this->db->where('type_section', 'section_cara_order')->get_where('section', $this->where)->row_array(),
-			'cara_ordernya' => $this->db->where('type_section', 'section_cara_ordernya')->get_where('section', $this->where)->row_array(),
-			'pembayaran' => $this->db->where('type_section', 'section_pembayaran')->get_where('section', $this->where)->row_array(),
-			'footer' => $this->db->where('type_section', 'section_footer_cara_order')->get_where('section', $this->where)->row_array(),
+			'banner' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_banner_cara_order']))->row_array(),
+			'cara_order' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_cara_order']))->row_array(),
+			'cara_ordernya' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_cara_ordernya']))->row_array(),
+			'pembayaran' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_pembayaran']))->row_array(),
+			'footer' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_footer_cara_order']))->row_array(),
 		];
 		loadView('templates/landing', 'landing/cara_order', $data);
 	}
@@ -63,16 +64,16 @@ class Home extends CI_Controller {
 	{
 		$data['title'] = "Testimoni";
 		$data['breadcrumb'] = breadcrumb($data['title'], true);
-		$data['data'] = $this->db->get_where('testimoni', $this->where)->result_array();
-		$data['testimoni_chat'] = $this->db->get_where('testimoni_chat', $this->where)->result_array();
+		$data['data'] = $this->gm->get('testimoni', $this->where)->result_array();
+		$data['testimoni_chat'] = generatePaginate('testimoni_chat', $this->where);
 		$data['section'] = [
-			'banner' => $this->db->where('type_section', 'section_banner_testimoni')->get_where('section', $this->where)->row_array(),
-			'testimonial' => $this->db->where('type_section', 'section_testimonial')->get_where('section', $this->where)->row_array(),
-			'testimoni_client' => $this->db->where('type_section', 'section_testimoni_client')->get_where('section', $this->where)->row_array(),
-			'testimoni_chat' => $this->db->where('type_section', 'section_testimoni_chat')->get_where('section', $this->where)->row_array(),
-			'footer' => $this->db->where('type_section', 'section_footer_cara_order')->get_where('section', $this->where)->row_array(),
+			'banner' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_banner_testimoni']))->row_array(),
+			'testimonial' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial']))->row_array(),
+			'testimonial_client' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_client']))->row_array(),
+			'testimonial_chat' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_testimonial_chat']))->row_array(),
+			'footer' => $this->gm->get('section', array_merge($this->where, ['type_section' => 'section_footer_cara_order']))->row_array(),
 		];
-		// var_dump($data['section']['testimonial']);die;
+		// var_dump($data['testimoni_chat']);die;
 		loadView('templates/landing', 'landing/testimoni', $data);
 	}
 
