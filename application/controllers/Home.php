@@ -67,6 +67,7 @@ class Home extends CI_Controller {
 
 	public function testimoni()
 	{
+	    $this->load->driver("cache");
 	    $cache_key = md5($this->uri->uri_string());
         $cache_path = $this->config->item('cache_path');
         
@@ -95,6 +96,7 @@ class Home extends CI_Controller {
 	    //$this->output->cache(86400);
 		if ($slug) {
 			$tugas = $this->db->where('slug', $slug)->get_where('tugas', $this->where)->row_array();
+			if($tugas){
 			$data['title'] = "Detail Tugas ".$tugas['nama_tugas'];
 			$data['breadcrumb'] = breadcrumb($data['title'], true);
 			$data['data'] = $tugas;
@@ -104,6 +106,9 @@ class Home extends CI_Controller {
 				'side' => $this->db->where('type_section', 'section_side_artikel')->get_where('section', $this->where)->row_array(),
 			];
 			loadView('templates/landing', 'landing/detail_tugas', $data);
+			}else{
+			    redirect(base_url());
+			}
 		}else{
 			$data['title'] = "List Tugas";
 			$data['breadcrumb'] = breadcrumb($data['title'], true);
